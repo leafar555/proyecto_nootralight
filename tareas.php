@@ -1,80 +1,8 @@
 <?php
 $pageTitle = 'Tareas';
-
-$tasks = [
-  ['id'=>1,'name'=>'Revisar apuntes de Cálculo II',       'subject'=>'Cálculo II',  'subjectColor'=>'#a78bfa','due'=>'Hoy',       'dueColor'=>'#34d399','status'=>'pending', 'priority'=>'high'],
-  ['id'=>2,'name'=>'Laboratorio de Física — informe final','subject'=>'Física',      'subjectColor'=>'#60a5fa','due'=>'Entregado',  'dueColor'=>'#34d399','status'=>'done',    'priority'=>'medium'],
-  ['id'=>3,'name'=>'Tarea Estadística 3.1–3.5',           'subject'=>'Estadística',  'subjectColor'=>'#34d399','due'=>'Mañana',    'dueColor'=>'#fbbf24','status'=>'pending', 'priority'=>'medium'],
-  ['id'=>4,'name'=>'Parcial Química Orgánica — caps. 5-8','subject'=>'Química',      'subjectColor'=>'#f472b6','due'=>'¡Urgente!',  'dueColor'=>'#f87171','status'=>'pending', 'priority'=>'urgent'],
-  ['id'=>5,'name'=>'Reporte de Programación Web',         'subject'=>'Prog. Web',    'subjectColor'=>'#f87171','due'=>'3 días',    'dueColor'=>'#fbbf24','status'=>'pending', 'priority'=>'medium'],
-  ['id'=>6,'name'=>'Exposición Historia — preparar slides','subject'=>'Historia',    'subjectColor'=>'#fbbf24','due'=>'Vencida',   'dueColor'=>'#f87171','status'=>'overdue', 'priority'=>'urgent'],
-  ['id'=>7,'name'=>'Resumen de derivadas parciales',      'subject'=>'Cálculo II',   'subjectColor'=>'#a78bfa','due'=>'Completado','dueColor'=>'#34d399','status'=>'done',    'priority'=>'low'],
-  ['id'=>8,'name'=>'Quiz de Física — repasar ondas',      'subject'=>'Física',       'subjectColor'=>'#60a5fa','due'=>'5 días',    'dueColor'=>'#94a3b8','status'=>'pending', 'priority'=>'low'],
-];
-
-$stats = [
-  ['label'=>'Total',      'value'=> count($tasks),                                  'color'=>'#a78bfa','bg'=>'rgba(124,58,237,0.15)'],
-  ['label'=>'Pendientes', 'value'=> count(array_filter($tasks, fn($t) => $t['status']==='pending')),  'color'=>'#fbbf24','bg'=>'rgba(245,158,11,0.15)'],
-  ['label'=>'Completadas','value'=> count(array_filter($tasks, fn($t) => $t['status']==='done')),     'color'=>'#34d399','bg'=>'rgba(16,185,129,0.15)'],
-  ['label'=>'Vencidas',   'value'=> count(array_filter($tasks, fn($t) => $t['status']==='overdue')),  'color'=>'#f87171','bg'=>'rgba(239,68,68,0.15)'],
-];
-
-$bySubject = [
-  ['name'=>'Cálculo II',  'count'=>2,'done'=>1,'color'=>'#a78bfa'],
-  ['name'=>'Física',      'count'=>2,'done'=>1,'color'=>'#60a5fa'],
-  ['name'=>'Química',     'count'=>1,'done'=>0,'color'=>'#f472b6'],
-  ['name'=>'Estadística', 'count'=>1,'done'=>0,'color'=>'#34d399'],
-  ['name'=>'Historia',    'count'=>1,'done'=>0,'color'=>'#fbbf24'],
-  ['name'=>'Prog. Web',   'count'=>1,'done'=>0,'color'=>'#f87171'],
-];
+require 'data/tareas.php';
 ?>
 <?php include 'includes/head.php'; ?>
-<style>
-  .tasks-layout { display: grid; grid-template-columns: 1fr 260px; gap: 20px; }
-
-  .task-section-title {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 11px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 1px; margin-bottom: 12px;
-  }
-
-  .task-list { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-card); overflow: hidden; margin-bottom: 20px; }
-
-  .task-row {
-    display: flex; align-items: center; gap: 12px;
-    padding: 13px 18px;
-    border-bottom: 1px solid var(--border);
-    transition: var(--transition);
-  }
-  .task-row:last-child { border-bottom: none; }
-  .task-row:hover { background: rgba(255,255,255,0.02); }
-  .task-row.done .task-name { text-decoration: line-through; color: var(--text-muted); }
-
-  .task-check {
-    width: 18px; height: 18px; border-radius: 5px;
-    border: 2px solid var(--border);
-    background: transparent;
-    cursor: pointer; flex-shrink: 0;
-    appearance: none; -webkit-appearance: none;
-    transition: var(--transition);
-    position: relative;
-  }
-  .task-check:checked { background: var(--success); border-color: var(--success); }
-  .task-check:checked::after {
-    content: '✓'; position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 11px; font-weight: 700;
-  }
-
-  .task-name { font-size: 13px; font-weight: 500; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .task-subject { font-size: 11px; font-weight: 600; display: block; margin-top: 1px; }
-  .task-due { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 5px; flex-shrink: 0; }
-
-  .right-sidebar { display: flex; flex-direction: column; gap: 20px; }
-  .right-section-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 12px; }
-
-  @media (max-width: 900px) { .tasks-layout { grid-template-columns: 1fr; } }
-</style>
 
 <div class="app-layout">
 <?php include 'includes/sidebar.php'; ?>

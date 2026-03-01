@@ -1,50 +1,8 @@
 <?php
 $pageTitle = 'Cuadernos';
-
-$notebooks = [
-  ['id' => 1, 'title' => 'Cálculo II',       'emoji' => '📐', 'color' => '#a78bfa', 'bg' => 'rgba(124,58,237,0.15)', 'notes' => 24, 'subs' => 5, 'updated' => 'hace 2h'],
-  ['id' => 2, 'title' => 'Física',            'emoji' => '⚡', 'color' => '#60a5fa', 'bg' => 'rgba(59,130,246,0.15)',  'notes' => 18, 'subs' => 4, 'updated' => 'ayer'],
-  ['id' => 3, 'title' => 'Química Orgánica',  'emoji' => '🧪', 'color' => '#f472b6', 'bg' => 'rgba(236,72,153,0.15)','notes' => 12, 'subs' => 3, 'updated' => 'hace 2 días'],
-  ['id' => 4, 'title' => 'Estadística',       'emoji' => '📊', 'color' => '#34d399', 'bg' => 'rgba(16,185,129,0.15)', 'notes' => 9,  'subs' => 2, 'updated' => 'hace 3 días'],
-  ['id' => 5, 'title' => 'Historia Universal','emoji' => '🏛️', 'color' => '#fbbf24', 'bg' => 'rgba(245,158,11,0.15)', 'notes' => 15, 'subs' => 4, 'updated' => 'hace 5 días'],
-  ['id' => 6, 'title' => 'Programación Web',  'emoji' => '💻', 'color' => '#f87171', 'bg' => 'rgba(239,68,68,0.15)',  'notes' => 31, 'subs' => 6, 'updated' => 'hace 1h'],
-];
+require 'data/cuadernos.php';
 ?>
 <?php include 'includes/head.php'; ?>
-<style>
-  .nb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  .nb-card {
-    padding: 20px; border-radius: var(--radius-card);
-    background: var(--bg-secondary); border: 1px solid var(--border);
-    cursor: pointer; transition: var(--transition);
-    position: relative; overflow: hidden;
-  }
-  .nb-card:hover { border-color: var(--card-accent, #3d3d6e); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-  .nb-accent-bar { height: 3px; border-radius: 3px; margin-bottom: 16px; }
-  .nb-emoji {
-    width: 44px; height: 44px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; margin-bottom: 12px;
-  }
-  .nb-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-  .nb-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 14px; }
-  .nb-footer { display: flex; align-items: center; justify-content: space-between; }
-  .nb-add {
-    border: 2px dashed var(--border); background: transparent;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 8px; min-height: 170px; transition: var(--transition); cursor: pointer;
-  }
-  .nb-add:hover { border-color: rgba(124,58,237,0.5); }
-  .nb-add-icon {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(124,58,237,0.15);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--accent-purple); font-size: 16px;
-  }
-
-  @media (max-width: 900px) { .nb-grid { grid-template-columns: repeat(2,1fr); } }
-  @media (max-width: 600px) { .nb-grid { grid-template-columns: 1fr; } }
-</style>
 
 <div class="app-layout">
 <?php include 'includes/sidebar.php'; ?>

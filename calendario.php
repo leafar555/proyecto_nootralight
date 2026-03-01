@@ -1,79 +1,8 @@
 <?php
 $pageTitle = 'Calendario';
-
-$events = [
-  ['day' => 3,  'title' => 'Entrega Lab. Física',      'subject' => 'Física',     'color' => '#a78bfa', 'time' => '09:00'],
-  ['day' => 7,  'title' => 'Parcial Cálculo II',        'subject' => 'Cálculo II', 'color' => '#f472b6', 'time' => '11:00', 'urgent' => true],
-  ['day' => 12, 'title' => 'Tarea Estadística 3.1-3.5', 'subject' => 'Estadística','color' => '#fbbf24', 'time' => '23:59'],
-  ['day' => 15, 'title' => 'Exposición Historia',       'subject' => 'Historia',   'color' => '#34d399', 'time' => '10:00'],
-  ['day' => 20, 'title' => 'Entrega Prog. Web',         'subject' => 'Prog. Web',  'color' => '#60a5fa', 'time' => '18:00'],
-  ['day' => 24, 'title' => 'Quiz Química Orgánica',     'subject' => 'Química',    'color' => '#f87171', 'time' => '08:30', 'urgent' => true],
-  ['day' => 27, 'title' => 'Revisión de proyectos',     'subject' => 'Prog. Web',  'color' => '#60a5fa', 'time' => '14:00'],
-  ['day' => 28, 'title' => 'Fin de semestre',           'subject' => 'General',    'color' => '#7c3aed', 'time' => 'Todo el día'],
-];
-
-// Organizar eventos por día
-$eventsByDay = [];
-foreach ($events as $ev) {
-  $eventsByDay[$ev['day']][] = $ev;
-}
-
-$calDays = array_merge(array_fill(0, 6, null), range(1, 28));
-$today = 27;
-$weekDays = ['L','M','M','J','V','S','D'];
+require 'data/calendario.php';
 ?>
 <?php include 'includes/head.php'; ?>
-<style>
-  .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
-  .cal-header-day {
-    padding: 10px; text-align: center;
-    font-size: 10px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 1px;
-    color: var(--text-muted);
-    border-bottom: 1px solid var(--border);
-  }
-  .cal-cell {
-    min-height: 100px; padding: 6px;
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .cal-cell:nth-child(7n) { border-right: none; }
-  .cal-day-num {
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 600;
-    margin-bottom: 4px; color: var(--text-muted);
-  }
-  .cal-day-num.today { background: var(--accent-grad); color: #fff; font-weight: 700; }
-  .cal-event {
-    padding: 2px 6px; border-radius: 4px;
-    font-size: 10px; font-weight: 600;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    margin-bottom: 2px;
-  }
-  .cal-more { font-size: 10px; color: var(--text-muted); padding: 0 4px; }
-
-  .view-toggle { display: flex; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
-  .view-btn { padding: 6px 14px; font-size: 11px; font-weight: 600; color: var(--text-muted); background: var(--bg-tertiary); transition: var(--transition); }
-  .view-btn.active { background: var(--accent-grad); color: #fff; }
-  .view-btn:hover:not(.active) { color: var(--text-primary); }
-
-  .agenda-item {
-    display: flex; align-items: center; gap: 14px;
-    padding: 14px 18px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-  }
-  .agenda-date {
-    width: 48px; height: 48px;
-    border-radius: 12px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .agenda-month { font-size: 9px; font-weight: 700; text-transform: uppercase; }
-  .agenda-day { font-size: 20px; font-weight: 900; line-height: 1; }
-</style>
 
 <div class="app-layout">
 <?php include 'includes/sidebar.php'; ?>
