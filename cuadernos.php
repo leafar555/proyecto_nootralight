@@ -46,15 +46,25 @@ require 'data/cuadernos.php';
         <span style="font-size:12px; font-weight:600; color:var(--text-muted);">Nuevo cuaderno</span>
       </div>
     </div>
+
+    <div id="nb-empty" class="empty-state" style="display:none;">
+      <i class="fa-solid fa-book-open"></i>
+      <p>No se encontraron cuadernos</p>
+    </div>
   </div>
 </div>
 </div>
 
 <script>
 function filterNotebooks(q) {
+  let visible = 0;
   document.querySelectorAll('#notebooks-grid .nb-card[data-title]').forEach(card => {
-    card.style.display = card.dataset.title.includes(q.toLowerCase()) ? '' : 'none';
+    const show = card.dataset.title.includes(q.toLowerCase());
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
   });
+  const empty = document.getElementById('nb-empty');
+  if (empty) empty.style.display = visible === 0 ? '' : 'none';
 }
 </script>
 

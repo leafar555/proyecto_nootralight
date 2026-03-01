@@ -93,7 +93,7 @@ require 'data/dashboard.php';
             </div>
           </div>
           <div class="progress-bar" style="margin-bottom:16px;">
-            <div class="progress-fill" style="width:62%;"></div>
+            <div class="progress-fill" data-xp="62" style="width:0%;"></div>
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
             <?php
