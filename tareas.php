@@ -64,7 +64,7 @@ require 'data/tareas.php';
         <div class="task-list">
           <?php foreach ($sectionTasks as $t): ?>
           <div class="task-row <?= $t['status'] === 'done' ? 'done' : '' ?>" data-status="<?= $t['status'] ?>">
-            <input type="checkbox" class="task-check" <?= $t['status'] === 'done' ? 'checked' : '' ?>>
+            <input type="checkbox" class="task-check" <?= $t['status'] === 'done' ? 'checked' : '' ?> data-task="<?= htmlspecialchars($t['name']) ?>">
             <div style="flex:1; min-width:0;">
               <div class="task-name"><?= $t['name'] ?></div>
               <span class="task-subject" style="color:<?= $t['subjectColor'] ?>;"><?= $t['subject'] ?></span>
@@ -132,6 +132,11 @@ require 'data/tareas.php';
           <?php endforeach; ?>
         </div>
       </div>
+    </div>
+
+    <div id="tasks-empty" class="empty-state" style="display:none;">
+      <i class="fa-solid fa-check-double"></i>
+      <p>No hay tareas en esta categoría</p>
     </div>
 
   </div>

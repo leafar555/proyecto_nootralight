@@ -48,26 +48,80 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function filterItems(filter) {
     document.querySelectorAll('[data-status]').forEach(item => {
-      if (filter === 'all' || item.dataset.status === filter) {
-        item.style.display = '';
-      } else {
-        item.style.display = 'none';
-      }
+      item.style.display = (filter === 'all' || item.dataset.status === filter) ? '' : 'none';
     });
+    // Ocultar secciones enteras si no tienen filas visibles
+    document.querySelectorAll('.task-section-title').forEach(title => {
+      const list = title.nextElementSibling;
+      const hasVisible = list && [...list.querySelectorAll('.task-row')].some(r => r.style.display !== 'none');
+      title.style.display = hasVisible ? '' : 'none';
+      if (list) list.style.display = hasVisible ? '' : 'none';
+    });
+    // Empty state
+    const hasAny = [...document.querySelectorAll('[data-status]')].some(r => r.style.display !== 'none');
+    const empty = document.getElementById('tasks-empty');
+    if (empty) empty.style.display = hasAny ? 'none' : '';
   }
 
-  /* ─── Task checkbox toggle ─── */
+  /* ─── Task checkbox: restaurar desde localStorage ─── */
+  document.querySelectorAll('.task-check').forEach(checkbox => {
+    const key = 'task__' + checkbox.dataset.task;
+    if (checkbox.dataset.task && localStorage.getItem(key) === '1') {
+      checkbox.checked = true;
+      checkbox.closest('.task-row')?.classList.add('done');
+    }
+  });
+
+  /* ─── Task checkbox toggle + persistir ─── */
   document.querySelectorAll('.task-check').forEach(checkbox => {
     checkbox.addEventListener('change', function() {
       const row = this.closest('.task-row');
       if (row) row.classList.toggle('done', this.checked);
+      if (this.dataset.task) {
+        if (this.checked) localStorage.setItem('task__' + this.dataset.task, '1');
+        else localStorage.removeItem('task__' + this.dataset.task);
+      }
     });
   });
 
-  /* ─── XP bar animation ─── */
-  document.querySelectorAll('.xp-fill[data-xp]').forEach(bar => {
+  /* ─── Escape: limpiar búsquedas ─── */
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    const nbInput = document.querySelector('[oninput*="filterNotebooks"]');
+    if (nbInput && nbInput === document.activeElement) {
+      nbInput.value = '';
+      if (typeof filterNotebooks === 'function') filterNotebooks('');
+      nbInput.blur();
+    }
+    const notesInput = document.querySelector('.notes-search-input input');
+    if (notesInput && notesInput === document.activeElement) {
+      notesInput.value = '';
+      notesInput.blur();
+    }
+  });
+
+  /* ─── XP bar animation (sidebar + dashboard) ─── */
+  document.querySelectorAll('[data-xp]').forEach(bar => {
     const pct = bar.dataset.xp;
     setTimeout(() => { bar.style.width = pct + '%'; }, 200);
+  });
+
+  /* ─── Ripple en botones ─── */
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.btn');
+    if (!btn) return;
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple-el';
+    const rect = btn.getBoundingClientRect();
+    ripple.style.left = (e.clientX - rect.left) + 'px';
+    ripple.style.top  = (e.clientY - rect.top)  + 'px';
+    btn.appendChild(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove());
+  });
+
+  /* ─── Stagger de cards al cargar ─── */
+  document.querySelectorAll('.card, .nb-card').forEach((card, i) => {
+    card.style.setProperty('--card-delay', Math.min(i * 60, 480) + 'ms');
   });
 
 });

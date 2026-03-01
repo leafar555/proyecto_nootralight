@@ -58,11 +58,11 @@ require 'data/notas.php';
     <div class="editor-panel">
       <!-- Toolbar -->
       <div class="editor-toolbar">
-        <div class="toolbar-btn" title="Negrita"><i class="fa-solid fa-bold"></i></div>
-        <div class="toolbar-btn" title="Cursiva"><i class="fa-solid fa-italic"></i></div>
-        <div class="toolbar-btn" title="Lista"><i class="fa-solid fa-list"></i></div>
-        <div class="toolbar-btn" title="Encabezado"><i class="fa-solid fa-heading"></i></div>
-        <div class="toolbar-btn" title="Código"><i class="fa-solid fa-code"></i></div>
+        <div class="toolbar-btn" title="Negrita" data-cmd="bold" aria-label="Negrita" role="button"><i class="fa-solid fa-bold"></i></div>
+        <div class="toolbar-btn" title="Cursiva" data-cmd="italic" aria-label="Cursiva" role="button"><i class="fa-solid fa-italic"></i></div>
+        <div class="toolbar-btn" title="Lista" data-cmd="insertUnorderedList" aria-label="Lista" role="button"><i class="fa-solid fa-list"></i></div>
+        <div class="toolbar-btn" title="Encabezado" data-cmd="formatBlock" data-val="h3" aria-label="Encabezado" role="button"><i class="fa-solid fa-heading"></i></div>
+        <div class="toolbar-btn" title="Código" aria-label="Código" role="button" id="toolbar-code"><i class="fa-solid fa-code"></i></div>
         <div class="toolbar-sep"></div>
         <div class="toolbar-ai">
           <i class="fa-solid fa-robot"></i> Preguntar a IA
@@ -71,7 +71,7 @@ require 'data/notas.php';
 
       <!-- Note content -->
       <div class="editor-body">
-        <div class="note-title-display"><?= $selected['title'] ?></div>
+        <div class="note-title-display" contenteditable="true" spellcheck="false"><?= $selected['title'] ?></div>
         <div class="note-meta-row">
           <span><i class="fa-solid fa-clock"></i> <?= $selected['updated'] ?></span>
           <span><?= $selected['words'] ?> palabras</span>
@@ -83,7 +83,7 @@ require 'data/notas.php';
           <?php endforeach; ?>
         </div>
 
-        <div class="note-content">
+        <div class="note-content" contenteditable="true" spellcheck="false" data-placeholder="Escribe aquí...">
           <h3>Fórmula principal</h3>
           <div class="code-block">∫ u dv = uv − ∫ v du</div>
           <p>
@@ -147,5 +147,26 @@ require 'data/notas.php';
   </div><!-- /notes-layout -->
 </div><!-- /main -->
 </div><!-- /app-layout -->
+
+<script>
+/* ─── Toolbar: execCommand ─── */
+document.querySelectorAll('.toolbar-btn[data-cmd]').forEach(btn => {
+  btn.addEventListener('mousedown', e => {
+    e.preventDefault(); // Evitar que el editor pierda el foco
+    const val = btn.dataset.val || null;
+    document.execCommand(btn.dataset.cmd, false, val);
+  });
+});
+
+/* ─── Toolbar: código inline ─── */
+document.getElementById('toolbar-code')?.addEventListener('mousedown', e => {
+  e.preventDefault();
+  const sel = window.getSelection();
+  if (!sel.rangeCount || sel.isCollapsed) return;
+  const range = sel.getRangeAt(0);
+  const code = document.createElement('code');
+  try { range.surroundContents(code); } catch (_) {}
+});
+</script>
 
 <?php include 'includes/footer.php'; ?>
